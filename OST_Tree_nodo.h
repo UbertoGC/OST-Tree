@@ -143,19 +143,19 @@ void OST_Tree_nodo<T>::dividir(OST_Tree_nodo<T>*tmp,int tamano){
         vector<int> b_1;
         T nuevos_datos_1[4];
         T nuevos_datos_2[4];
-        for (int i = 0; i < 4; i++){
-            if(i%2 == 0){
-                nuevos_datos_1[i] = INT16_MAX;
-                nuevos_datos_2[i] = INT16_MAX;
-            }
-            else{
-                nuevos_datos_1[i] = INT16_MIN;
-                nuevos_datos_2[i] = INT16_MIN;
-            }
-        }
         for (int i = 0; i < tmp->hijos.size(); i++){
             for (int j = 0; j < 4; j++){
                 T eje = tmp->hijos[i]->MBR[j];
+                for (int s = 0; s < 4; s++){
+                    if(s%2 == 0){
+                        nuevos_datos_1[s] = INT16_MAX;
+                        nuevos_datos_2[s] = INT16_MAX;
+                    }
+                    else{
+                        nuevos_datos_1[s] = INT16_MIN;
+                        nuevos_datos_2[s] = INT16_MIN;
+                    }
+                }
                 for (int k = 0; k < tmp->hijos.size(); k++){
                     if(tmp->hijos[k]->MBR[j] < eje){
                         a_1.push_back(k);
@@ -176,7 +176,7 @@ void OST_Tree_nodo<T>::dividir(OST_Tree_nodo<T>*tmp,int tamano){
                 T nuevo_margen = b_1.size() -  a_1.size();
                 if(a_1.size() > b_1.size())
                     nuevo_margen = a_1.size() - b_1.size();
-                    
+
                 if(vacio){
                     margen = nuevo_margen;
                     superposicion = this->calcular_superposicion(nuevos_datos_1,nuevos_datos_2);
@@ -297,39 +297,6 @@ void OST_Tree_nodo<T>::dividir(OST_Tree_nodo<T>*tmp,int tamano){
                 break;
             }
         }
-            /*
-            for (int i = 0; i < tmp->hijos.size(); i++){
-                if(i < tmp->hijos.size()/2){
-                    a->hijos.push_back(tmp->hijos[i]);
-                    this->actualizar(a,tmp->hijos[i]);
-                }
-                else{
-                    b->hijos.push_back(tmp->hijos[i]);
-                    this->actualizar(b,tmp->hijos[i]);
-                }
-            }
-            a->estado = 1;
-            b->estado = 1;
-            OST_Tree_nodo<T>* f = tmp->padre;
-            for (int j = 0; j < f->hijos.size(); j++){
-                if(f->hijos[j] == tmp){
-                    delete f->hijos[j];
-                    f->hijos[j] = a;
-                    break;
-                }
-            }
-            if(f != this)
-                this->actualizar(f,a);
-            f->hijos.push_back(b);
-            if(f->hijos.size() > tamano){
-                tmp = f;
-            }
-            else{
-                if(f != this)
-                    this->actualizar(f,b);
-                break;
-            }
-        }*/
     }
 }
 

@@ -24,5 +24,6 @@ int main(){
         cout<<"continuar?(0: no, 1: si)"<<endl;
         cin>>continuar;
     }
+    /**/
     return 0;
 }
