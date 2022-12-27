@@ -10,7 +10,9 @@ private:
 public:
     OST_Tree();
     OST_Tree(int, int);
-    void anadir(T*,T*);
+    void anadir(T*,T*,int);
+    void buscar(T*,int);
+    void eliminar(T*,int);
     int size_nodo();
     void imprimir();
     ~OST_Tree();
@@ -28,8 +30,16 @@ OST_Tree<T>::OST_Tree(int a, int m){
     raiz=new OST_Tree_nodo<T>();
 }
 template <typename T>
-void OST_Tree<T>::anadir(T*nuevo_VBR,T*nuevo_MBR){
-    raiz->anadir(nuevo_VBR,nuevo_MBR,size_n,maximo_puntos);
+void OST_Tree<T>::anadir(T*nuevo_VBR,T*nuevo_MBR,int tiempo){
+    raiz->anadir(nuevo_VBR,nuevo_MBR,size_n,maximo_puntos,tiempo);
+}
+template <typename T>
+void OST_Tree<T>::buscar(T*region, int tiempo){
+    raiz->buscar(region,tiempo);
+}
+template <typename T>
+void OST_Tree<T>::eliminar(T*region, int tiempo){
+    raiz->eliminar(region,size_n,maximo_puntos,tiempo);
 }
 template <typename T>
 int OST_Tree<T>::size_nodo(){
