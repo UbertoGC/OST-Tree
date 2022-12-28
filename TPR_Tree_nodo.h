@@ -185,7 +185,7 @@ void TPR_Tree_nodo<T>::buscar(T* region, int tiempo){
         }
         else{
             for (int i = 0; i < tmp->hijos.size(); i++){
-                if(this->calcular_superposicion(tmp->hijos[i]->MBR,region) != 0 || this->calcular_superposicion(region,tmp->hijos[i]->MBR) != 0){
+                if(this->calcular_superposicion(tmp->hijos[i]->MBR,region) != 0){
                     busqueda.push(tmp->hijos[i]);
                 }
             }
@@ -289,19 +289,11 @@ void TPR_Tree_nodo<T>::eliminar(T* MBR_a_eliminar,int tamano, int maximo,int tie
                 } 
                 sort(resultados.begin(),resultados.end());
                 hermano = resultados[0].second;
-                hermano->imprimir();
-                cout<<"______________________________________________________________________________________________"<<endl;
-                tmp->imprimir();
-                cout<<"______________________________________________________________________________________________"<<endl;
-                cout<<ubicacion<<endl;
-                cout<<"______________________________________________________________________________________________"<<endl;
                 hermano->hijos.push_back(tmp->hijos[0]);
                 tmp->hijos[0]->padre = hermano;
                 tmp->hijos.clear();
                 f->hijos.erase(f->hijos.begin() + ubicacion);
-                hermano->imprimir();
                 delete tmp;
-                cout<<"----------------------------------------------------------------------------------------------"<<endl;
                 if(hermano->hijos.size() <= maximo){
                     tmp = f;
                 }
