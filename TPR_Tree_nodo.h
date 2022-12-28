@@ -176,7 +176,7 @@ void TPR_Tree_nodo<T>::buscar(T* region, int tiempo){
         }
         else{
             for (int i = 0; i < tmp->hijos.size(); i++){
-                if(this->calcular_superposicion(region,tmp->hijos[i]->MBR) != 0){
+                if(this->calcular_superposicion(tmp->hijos[i]->MBR,region) != 0 || this->calcular_superposicion(region,tmp->hijos[i]->MBR) != 0){
                     busqueda.push(tmp->hijos[i]);
                 }
             }
