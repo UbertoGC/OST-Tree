@@ -1,6 +1,6 @@
-#include "OST_Tree.h"
+#include "TPR_Tree.h"
 int main(){
-    OST_Tree<int> alfa;
+    TPR_Tree<int> alfa;
     int continuar;
     int tiempo;
     int datos_MBR[4] ={2,4,3,4};
