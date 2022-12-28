@@ -1,5 +1,5 @@
-#define OST_TREE_NODO
-#ifdef OST_TREE_NODO
+#define TPR_TREE_NODO
+#ifdef TPR_TREE_NODO
 
 #include <iostream>
 #include <vector>
@@ -10,15 +10,15 @@
 using namespace std;
 
 template<typename T>
-class OST_Tree_nodo {
+class TPR_Tree_nodo {
 private:
     T *VBR;
     T *MBR;
     int estado;
-    vector<OST_Tree_nodo *> hijos;
-    OST_Tree_nodo *padre;
+    vector<TPR_Tree_nodo *> hijos;
+    TPR_Tree_nodo *padre;
 public:
-    OST_Tree_nodo();
+    TPR_Tree_nodo();
 
     bool dentro(T *, T *);
 
@@ -34,17 +34,17 @@ public:
 
     void paso_de_tiempo(int);
 
-    void dividir(OST_Tree_nodo<T> *, int, int);
+    void dividir(TPR_Tree_nodo<T> *, int, int);
 
-    void actualizar(OST_Tree_nodo<T> *, OST_Tree_nodo<T> *, bool);
+    void actualizar(TPR_Tree_nodo<T> *, TPR_Tree_nodo<T> *, bool);
 
     void imprimir();
 
-    ~OST_Tree_nodo();
+    ~TPR_Tree_nodo();
 };
 
 template<typename T>
-OST_Tree_nodo<T>::OST_Tree_nodo() {
+TPR_Tree_nodo<T>::TPR_Tree_nodo() {
     VBR = nullptr;
     MBR = nullptr;
     padre = nullptr;
@@ -52,20 +52,20 @@ OST_Tree_nodo<T>::OST_Tree_nodo() {
 }
 
 template<typename T>
-bool OST_Tree_nodo<T>::dentro(T *area, T *objeto) {
+bool TPR_Tree_nodo<T>::dentro(T *area, T *objeto) {
     if ((area[0] <= objeto[0]) && (objeto[1] <= area[1]) && (area[2] <= objeto[2]) && (objeto[3] <= area[3]))
         return true;
     return false;
 }
 
 template<typename T>
-T OST_Tree_nodo<T>::calcular_area(T *campo) {
+T TPR_Tree_nodo<T>::calcular_area(T *campo) {
     T area = abs((campo[1] - campo[0]) * (campo[3] - campo[2]));
     return area;
 }
 
 template<typename T>
-T OST_Tree_nodo<T>::calcular_superposicion(T *i, T *j) {
+T TPR_Tree_nodo<T>::calcular_superposicion(T *i, T *j) {
     if (this->dentro(j, i)) {
         return this->calcular_area(i);
     }
@@ -90,14 +90,14 @@ T OST_Tree_nodo<T>::calcular_superposicion(T *i, T *j) {
 }
 
 template<typename T>
-void OST_Tree_nodo<T>::paso_de_tiempo(int tiempo) {
+void TPR_Tree_nodo<T>::paso_de_tiempo(int tiempo) {
     if (tiempo <= 0)
         return;
-    OST_Tree_nodo<T> *tmp = this;
-    queue<OST_Tree_nodo<T> *> actualizacion;
+    TPR_Tree_nodo<T> *tmp = this;
+    queue<TPR_Tree_nodo<T> *> actualizacion;
     actualizacion.push(tmp);
     while (!actualizacion.empty()) {
-        OST_Tree_nodo<T> *arbol = actualizacion.front();
+        TPR_Tree_nodo<T> *arbol = actualizacion.front();
         actualizacion.pop();
         if (arbol != this) {
             for (int i = 0; i < 4; i++) {
@@ -111,15 +111,15 @@ void OST_Tree_nodo<T>::paso_de_tiempo(int tiempo) {
 }
 
 template<typename T>
-void OST_Tree_nodo<T>::anadir(T *nuevo_VBR, T *nuevo_MBR, int tamano, int maximo, int tiempo) {
+void TPR_Tree_nodo<T>::anadir(T *nuevo_VBR, T *nuevo_MBR, int tamano, int maximo, int tiempo) {
     this->paso_de_tiempo(tiempo);
-    OST_Tree_nodo<T> *tmp = this;
+    TPR_Tree_nodo<T> *tmp = this;
     while (!tmp->hijos.empty()) {
         if (tmp->estado == 1) {
             break;
         } else {
             T superposicion;
-            vector<pair<T, OST_Tree_nodo<T> *>> resultados;
+            vector<pair<T, TPR_Tree_nodo<T> *>> resultados;
             T nuevos_datos[4];
             for (int i = 0; i < tmp->hijos.size(); i++) {
                 T i_superposicion = 0;
@@ -143,7 +143,7 @@ void OST_Tree_nodo<T>::anadir(T *nuevo_VBR, T *nuevo_MBR, int tamano, int maximo
         }
     }
 
-    OST_Tree_nodo<T> *nuevo_objeto = new OST_Tree_nodo<T>();
+    TPR_Tree_nodo<T> *nuevo_objeto = new TPR_Tree_nodo<T>();
     nuevo_objeto->MBR = new T[4];
     nuevo_objeto->VBR = new T[4];
     nuevo_objeto->estado = 2;
@@ -152,7 +152,7 @@ void OST_Tree_nodo<T>::anadir(T *nuevo_VBR, T *nuevo_MBR, int tamano, int maximo
         nuevo_objeto->VBR[i] = nuevo_VBR[i];
     }
     if (tmp->estado == 0) {
-        OST_Tree_nodo<T> *nuevo_nodo = new OST_Tree_nodo<T>();
+        TPR_Tree_nodo<T> *nuevo_nodo = new TPR_Tree_nodo<T>();
         nuevo_nodo->estado = 1;
         tmp->hijos.push_back(nuevo_nodo);
         int ultimo = tmp->hijos.size() - 1;
@@ -168,11 +168,11 @@ void OST_Tree_nodo<T>::anadir(T *nuevo_VBR, T *nuevo_MBR, int tamano, int maximo
 }
 
 template<typename T>
-void OST_Tree_nodo<T>::buscar(T *region, int tiempo) {
+void TPR_Tree_nodo<T>::buscar(T *region, int tiempo) {
     this->paso_de_tiempo(tiempo);
-    OST_Tree_nodo<T> *tmp = this;
-    queue<OST_Tree_nodo<T> *> busqueda;
-    vector<OST_Tree_nodo<T> *> resultado;
+    TPR_Tree_nodo<T> *tmp = this;
+    queue<TPR_Tree_nodo<T> *> busqueda;
+    vector<TPR_Tree_nodo<T> *> resultado;
     busqueda.push(tmp);
     while (!busqueda.empty()) {
         tmp = busqueda.front();
@@ -212,10 +212,10 @@ void OST_Tree_nodo<T>::buscar(T *region, int tiempo) {
 }
 
 template<typename T>
-void OST_Tree_nodo<T>::eliminar(T *MBR_a_eliminar, int tamano, int maximo, int tiempo) {
+void TPR_Tree_nodo<T>::eliminar(T *MBR_a_eliminar, int tamano, int maximo, int tiempo) {
     this->paso_de_tiempo(tiempo);
-    OST_Tree_nodo<T> *tmp = this;
-    queue<OST_Tree_nodo<T> *> eliminador;
+    TPR_Tree_nodo<T> *tmp = this;
+    queue<TPR_Tree_nodo<T> *> eliminador;
     int indice = -1;
     eliminador.push(tmp);
     while (!eliminador.empty() && indice == -1) {
@@ -242,7 +242,7 @@ void OST_Tree_nodo<T>::eliminar(T *MBR_a_eliminar, int tamano, int maximo, int t
             delete tmp;
             return;
         }
-        OST_Tree_nodo<T> *det = tmp->hijos[0];
+        TPR_Tree_nodo<T> *det = tmp->hijos[0];
         while (tmp->hijos.size() == 1) {
             if (tmp->padre == nullptr) {
                 if (tmp->hijos[0]->estado == 0) {
@@ -254,11 +254,11 @@ void OST_Tree_nodo<T>::eliminar(T *MBR_a_eliminar, int tamano, int maximo, int t
                 }
                 break;
             }
-            OST_Tree_nodo<T> *hermano;
-            OST_Tree_nodo<T> *f = tmp->padre;
+            TPR_Tree_nodo<T> *hermano;
+            TPR_Tree_nodo<T> *f = tmp->padre;
             if (f->hijos.size() > 1) {
                 T superposicion;
-                vector<pair<T, OST_Tree_nodo<T> *>> resultados;
+                vector<pair<T, TPR_Tree_nodo<T> *>> resultados;
                 T nuevos_datos[4];
                 int ubicacion = -1;
                 for (int i = 0; i < f->hijos.size(); i++) {
@@ -313,10 +313,10 @@ void OST_Tree_nodo<T>::eliminar(T *MBR_a_eliminar, int tamano, int maximo, int t
 }
 
 template<typename T>
-void OST_Tree_nodo<T>::dividir(OST_Tree_nodo<T> *tmp, int tamano, int tiempo) {
+void TPR_Tree_nodo<T>::dividir(TPR_Tree_nodo<T> *tmp, int tamano, int tiempo) {
     while (1) {
-        OST_Tree_nodo<T> *a = new OST_Tree_nodo<T>();
-        OST_Tree_nodo<T> *b = new OST_Tree_nodo<T>();
+        TPR_Tree_nodo<T> *a = new TPR_Tree_nodo<T>();
+        TPR_Tree_nodo<T> *b = new TPR_Tree_nodo<T>();
         bool vacio = true;
         T superposicion;
         T area;
@@ -362,7 +362,7 @@ void OST_Tree_nodo<T>::dividir(OST_Tree_nodo<T> *tmp, int tamano, int tiempo) {
                     margen = nuevo_margen;
                     superposicion = this->calcular_superposicion(nuevos_datos_1, nuevos_datos_2);
                     if (tmp->padre != nullptr) {
-                        OST_Tree_nodo<T> *f = tmp->padre;
+                        TPR_Tree_nodo<T> *f = tmp->padre;
                         for (int k = 0; k < f->hijos.size(); k++) {
                             if (f->hijos[k] != tmp) {
                                 superposicion += this->calcular_superposicion(f->hijos[k]->MBR, nuevos_datos_1);
@@ -379,7 +379,7 @@ void OST_Tree_nodo<T>::dividir(OST_Tree_nodo<T> *tmp, int tamano, int tiempo) {
                     //Calculo de superposicion
                     T nuevo_superposicion = this->calcular_superposicion(nuevos_datos_1, nuevos_datos_2);
                     if (tmp->padre != nullptr) {
-                        OST_Tree_nodo<T> *f = tmp->padre;
+                        TPR_Tree_nodo<T> *f = tmp->padre;
                         for (int k = 0; k < f->hijos.size(); k++) {
                             if (f->hijos[k] != tmp) {
                                 nuevo_superposicion += this->calcular_superposicion(f->hijos[k]->MBR, nuevos_datos_1);
@@ -413,7 +413,7 @@ void OST_Tree_nodo<T>::dividir(OST_Tree_nodo<T> *tmp, int tamano, int tiempo) {
                     margen = nuevo_margen;
                     superposicion = this->calcular_superposicion(nuevos_datos_1, nuevos_datos_2);
                     if (tmp->padre != nullptr) {
-                        OST_Tree_nodo<T> *f = tmp->padre;
+                        TPR_Tree_nodo<T> *f = tmp->padre;
                         for (int k = 0; k < f->hijos.size(); k++) {
                             if (f->hijos[k] != tmp) {
                                 superposicion += this->calcular_superposicion(f->hijos[k]->MBR, nuevos_datos_1);
@@ -450,7 +450,7 @@ void OST_Tree_nodo<T>::dividir(OST_Tree_nodo<T> *tmp, int tamano, int tiempo) {
             b->padre = tmp;
             break;
         } else {
-            OST_Tree_nodo<T> *f = tmp->padre;
+            TPR_Tree_nodo<T> *f = tmp->padre;
             for (int j = 0; j < f->hijos.size(); j++) {
                 if (f->hijos[j] == tmp) {
                     delete f->hijos[j];
@@ -475,9 +475,9 @@ void OST_Tree_nodo<T>::dividir(OST_Tree_nodo<T> *tmp, int tamano, int tiempo) {
 }
 
 template<typename T>
-void OST_Tree_nodo<T>::actualizar(OST_Tree_nodo<T> *tmp, OST_Tree_nodo<T> *cambiado, bool con_tiempo) {
+void TPR_Tree_nodo<T>::actualizar(TPR_Tree_nodo<T> *tmp, TPR_Tree_nodo<T> *cambiado, bool con_tiempo) {
     bool cambio = true;
-    OST_Tree_nodo<T> *ant = cambiado;
+    TPR_Tree_nodo<T> *ant = cambiado;
     while (tmp != nullptr && tmp != this && cambio) {
         cambio = false;
         if (tmp->MBR == nullptr) {
@@ -585,9 +585,9 @@ void OST_Tree_nodo<T>::actualizar(OST_Tree_nodo<T> *tmp, OST_Tree_nodo<T> *cambi
 }
 
 template<typename T>
-void OST_Tree_nodo<T>::imprimir() {
-    OST_Tree_nodo<T> *tmp = this;
-    queue<OST_Tree_nodo<T> *> impresion;
+void TPR_Tree_nodo<T>::imprimir() {
+    TPR_Tree_nodo<T> *tmp = this;
+    queue<TPR_Tree_nodo<T> *> impresion;
     impresion.push(tmp);
     while (!impresion.empty()) {
         tmp = impresion.front();
@@ -667,7 +667,7 @@ void OST_Tree_nodo<T>::imprimir() {
 }
 
 template<typename T>
-OST_Tree_nodo<T>::~OST_Tree_nodo() {
+TPR_Tree_nodo<T>::~TPR_Tree_nodo() {
 }
 
 #endif
