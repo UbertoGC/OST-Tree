@@ -63,9 +63,6 @@ T TPR_Tree_nodo<T>::calcular_superposicion(T*i, T* j){
     else if(i[0] <= j[1] && j[1] <= i[1]){
         x_valor = j[1] - i[0];
     }
-    else{
-        return x_valor;
-    }
     T y_valor = 0;
     if(i[2] <= j[2] && j[2] <= i[3]){
         y_valor = min(i[3],j[3]) - j[2];
@@ -73,10 +70,22 @@ T TPR_Tree_nodo<T>::calcular_superposicion(T*i, T* j){
     else if(i[2] <= j[3] && j[3] <= i[3]){
         y_valor = j[3] - i[2];
     }
-    else{
-        return y_valor;
-    }
     T resultado = abs(y_valor*x_valor);
+    x_valor = 0;
+    if(j[0] <= i[0] && i[0] <= j[1]){
+        x_valor = min(i[1],j[1]) - i[0];
+    }
+    else if(j[0] <= i[1] && i[1] <= j[1]){
+        x_valor = i[1] - j[0];
+    }
+    y_valor = 0;
+    if(j[2] <= i[2] && i[2] <= j[3]){
+        y_valor = min(j[3],i[3]) - i[2];
+    }
+    else if(j[2] <= i[3] && i[3] <= j[3]){
+        y_valor = i[3] - j[2];
+    }
+    resultado = max(resultado,abs(y_valor*x_valor));
     return resultado;
 }
 
@@ -398,7 +407,7 @@ void TPR_Tree_nodo<T>::dividir(TPR_Tree_nodo<T>*tmp,int tamano,int tiempo){
                         }
                         //Fin calculo de area
                     }
-                    else if(nuevo_superposicion < nuevo_superposicion){
+                    else if(nuevo_superposicion < superposicion){
                         superposicion = nuevo_superposicion;
                         area = this->calcular_area(nuevos_datos_1);
                         area += this->calcular_area(nuevos_datos_2);
