@@ -4,12 +4,16 @@ int main() {
     OST_Tree<int> alfa;
     int continuar;
     int tiempo;
+
     int datos_MBR[4] = {2, 4, 3, 4};
     int datos_VBR[4] = {1, 1, 1, 1};
+
     alfa.anadir(datos_VBR, datos_MBR, 0);
     alfa.imprimir();
+
     cout << "continuar?(0: no, 1: anadir, 2: buscar, 3: eliminar)" << endl;
     cin >> continuar;
+
     while (continuar) {
         if (continuar == 1) {
             cout << "datos VBR:" << endl;
